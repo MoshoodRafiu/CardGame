@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.main-body {
+    background: url('images/bg.jpg');
+    width: 100vw;
+    height: 100vh;
+}
+.row1, .row2, .row3 {
+    width: 100%;
+}
+.row1 {
+    height: 30%;
+}
+.row2 {
+    /* background: url('images/bg-1.jpg')center/cover no-repeat; */
+    background-color: rgb(22, 20, 20);
+    margin: 0 auto;
+    height: 40%;
+}
+.row3 {
+    height: 30%;
+}
+.cards-computer, .cards-player, .cards-table {
+    height: 100%;
+}
+.all {
+    float: left;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.card {
+    width: 90px;
+    height: 140px;
+    margin: 0 10px;
+}
+.market {
+    float: left;
+    width: 35%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.game-board {
+    float: right;
+    width: 65%;
+    height: 100%;
+}
+.active-cards {
+    float: left;
+    width: 46.15%;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+.com-score, .player-score {
+    font-size: 30px;
+    position: absolute;
+}
+.com-score { 
+    top: 40%;
+    left: 80%;
+}
+.player-score {
+    top: 55%;
+    left: 80%;
+}
+.score-board {
+    float: right;
+    width: 53.85%;
+    height: 100%;
+    display: block;
+    text-align: center;
+    margin-top: auto;
+    color: honeydew;
+}
+.card-stack-1, .card-stack-2, .card-stack-3, .card-stack-11, .card-stack-22, .card-stack-33 {
+    position: absolute;
+}
+.card-stack-1{
+    top: 40%;
+}
+.card-stack-2 {
+    top: 40.6%;
+    left: 13.8%;
+}
+.card-stack-3 {
+    top: 41.5%;
+    left: 13.6%;
+}
+.card-stack-3:active {
+    transform: translateY(20px);
+}
+.player .card:active, .player-2 .card:active {
+    transform: translateY(-50px);
+}
+.active {
+    position: absolute;
+}
+.next-button img, .prev-button img{
+    width: 4%;
+    position: absolute;
+}
+.prev-button img{
+    left: 5%;
+    top: 83%;
+}
+.next-button img{
+    left: 90.5%;
+    top: 83%;
+}
+.next-button img:active, .prev-button img:active {
+    transform: translateY(5px);
+}
+.prev, .next {
+    display: none;
+}
+.no-cards-left {
+    position: absolute;
+    left: 93%;
+    top: 71%;
+    font-size: 23px;
+    background: rgb(22, 20, 20);
+    color: white;
+    text-align: center;
+    padding: 15px;
+    border-radius: 50%;
+    display: none;
+}
+#stack-1 {
+    position: absolute;
+    top: 40.7%;
+    left: 47.3%;
+    display: none;
+}
+#stack-2 {
+    position: absolute;
+    top: 40%;
+    left: 47%;
+    display: none;
+}
+.winner {
+    position: absolute;
+    top: 45%;
+    left: 39%;
+    color: white;
+    font-size: 40px;
+    font-weight: 300;
+    background-color: rgba(22, 20, 20, 0.5);
+}
+#win {
+    display: none;
+}
+.turn {
+    position: absolute;
+    top: 63%;
+    left: 46%;
+    color: white;
+    font-size: 20px;
+    font-weight: 300;
+    background-color: rgba(22, 20, 20, 0.5);
+    display: none;
+}
