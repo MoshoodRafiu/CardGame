@@ -154,13 +154,13 @@ const interfaceController = (() => {
             let win = document.querySelector('#win');
             if (player.length == 0){
                 win.textContent = 'You Win!!!';
-                win.style.display = 'block';
+                document.querySelector('.winner').style.display = 'block';
                 playerScore++;
                 document.querySelector('.player-point').textContent = playerScore;
                 return false;
             } else if (com.length == 0){
                 win.textContent = 'Com Wins!!!';
-                win.style.display = 'block';
+                document.querySelector('.winner').style.display = 'block';
                 comScore++;
                 document.querySelector('.com-point').textContent = comScore;
                 return false;
@@ -180,30 +180,33 @@ const interfaceController = (() => {
 })();
 
 const gameInterface = ((gameCtrl, interfaceCtrl) => {
-    // get allArray from the gameController IIFE
-    allArrays = gameCtrl.getAllArrays();
+    let play = new Audio('swish.m4a');
+    const setGame = () => {
+        // get allArray from the gameController IIFE
+        allArrays = gameCtrl.getAllArrays();
 
-    //set the shuffling array
-    allArrays.shuffleArray = gameCtrl.generateRandomArray(allArrays.shuffleArray, 52);
+        //set the shuffling array
+        allArrays.shuffleArray = gameCtrl.generateRandomArray(allArrays.shuffleArray, 52);
 
-    // Shuffle cards
-    allArrays.allCards = interfaceCtrl.shuffleCards(allArrays.allCards, allArrays.shuffleArray);
+        // Shuffle cards
+        allArrays.allCards = interfaceCtrl.shuffleCards(allArrays.allCards, allArrays.shuffleArray);
 
-    // Set player Cards and display
-    allArrays.playerCards = gameCtrl.generateCardArray(allArrays.allCards, 5);
-    isReady = interfaceCtrl.displayPlayerStartingCard(allArrays.playerCards);
+        // Set player Cards and display
+        allArrays.playerCards = gameCtrl.generateCardArray(allArrays.allCards, 5);
+        interfaceCtrl.displayPlayerStartingCard(allArrays.playerCards);
 
-    // Set com Cards and display
-    allArrays.comCards = gameCtrl.generateCardArray(allArrays.allCards, 5);
-    interfaceCtrl.displayComStartingCard();
+        // Set com Cards and display
+        allArrays.comCards = gameCtrl.generateCardArray(allArrays.allCards, 5);
+        interfaceCtrl.displayComStartingCard();
 
-    //set table Cards and display
-    allArrays.tableCards = gameCtrl.generateCardArray(allArrays.allCards, 1);
-    interfaceCtrl.displayCard('active-cards', allArrays.tableCards[allArrays.tableCards.length - 1], allArrays.tableCards.length == 1, true);
-    allArrays.currentCard = allArrays.tableCards[allArrays.tableCards.length - 1].split('-');
-    
+        //set table Cards and display
+        allArrays.tableCards = gameCtrl.generateCardArray(allArrays.allCards, 1);
+        interfaceCtrl.displayCard('active-cards', allArrays.tableCards[allArrays.tableCards.length - 1], allArrays.tableCards.length == 1, true);
+        allArrays.currentCard = allArrays.tableCards[allArrays.tableCards.length - 1].split('-');
+    } 
+    setGame();
     //Setup event listeners for all player cards
-    isReady = false;
+    let isReady = false;
     playerIsPlaying = true;
     setTimeout (() => {
         isReady = true;
@@ -217,6 +220,7 @@ const gameInterface = ((gameCtrl, interfaceCtrl) => {
                 splitId = id.split('-');
                 // check if card is valid
                 if (splitId[0] == allArrays.currentCard[0] || splitId[1] == allArrays.currentCard[1]){
+                    play.play();
                     // display the card on table
                     interfaceCtrl.displayCard('active',id,false,false);
                     child = document.querySelector('.active-cards');
@@ -328,6 +332,8 @@ const gameInterface = ((gameCtrl, interfaceCtrl) => {
                     comMarket();
                     document.querySelector('.turn').style.display = 'block';
                     playerIsPlaying = true;
+                } else {
+                    play.play();
                 }
                 //Check winner
                 isReady = interfaceCtrl.checkWinner(allArrays.playerCards, allArrays.comCards);
@@ -399,5 +405,35 @@ const gameInterface = ((gameCtrl, interfaceCtrl) => {
             }
         }
     });
-    console.log(allArrays)
+
+    document.querySelector('.cont').addEventListener('click', () => {
+        document.querySelector('#stack-1').style.display = 'none';
+        document.querySelector('#stack-2').style.display = 'none';
+        document.querySelector('.winner').style.display = 'none';
+        let el1 = document.querySelector('.player');
+        let el2 = document.querySelector('.com');
+        let el3 = document.querySelector('.active-cards');
+        while (allArrays.playerCards.length != 0 ) {
+            allArrays.allCards.push(allArrays.playerCards.pop());
+            el1.removeChild(el1.firstChild);
+        }
+        while (allArrays.comCards.length != 0 ) {
+            allArrays.allCards.push(allArrays.comCards.pop());
+            el2.removeChild(el2.firstChild);
+        }
+        while (allArrays.tableCards.length != 0 ) {
+            allArrays.allCards.push(allArrays.tableCards.pop());
+            el3.removeChild(el3.lastChild);
+        }
+        console.log(allArrays)
+        allArrays.currentCard.pop();
+        allArrays.currentCard.pop();
+        isReady = true;
+        setGame();
+        if (!playerIsPlaying) {
+            setTimeout(() => {
+                comPlay();
+            },2000)
+        }
+    });
 })(gameController,interfaceController);
